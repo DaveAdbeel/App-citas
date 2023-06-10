@@ -1,12 +1,54 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}{% endblock title %}</title>
-    <link rel="stylesheet" href="{{url_for("static", filename="css/style.css")}}">
-</head>
-<body>
-    
-</body>
+   <head>
+      <meta charset="UTF-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <title>{% block title %}{% endblock title %}</title>
+      <link
+         rel="stylesheet"
+         href='{{url_for("static", filename="css/reset.css")}}'
+      />
+      <link
+         rel="stylesheet"
+         href='{{url_for("static", filename="css/style.css")}}'
+      />
+   </head>
+   <body>
+      <nav class="nav">
+         <div>
+            <img
+               src="{{url_for('static', filename='img/nav-logo.svg')}}"
+               alt="nav logo"
+            />
+            MORE LOVE
+         </div>
+         <ul class="nav_items">
+            <li>
+               <a href="/">
+                  <img
+                     src="{{url_for('static', filename='img/nav-home-icon.svg')}}"
+                     alt="nav home icon"
+                  />Home</a
+               >
+            </li>
+            <li>
+               <a href="/login">
+                  <img
+                     src="{{url_for('static', filename='img/nav-login-icon.svg')}}"
+                     alt="nav login icon"
+                  />Login
+               </a>
+            </li>
+            <li>
+               <a href="/register">
+                  <img
+                     src="{{url_for('static', filename='img/nav-register-icon.svg')}}"
+                     alt="nav register icon"
+                  />Register</a
+               >
+            </li>
+         </ul>
+      </nav>
+      {% block content %} {% endblock content %}
+   </body>
 </html>
