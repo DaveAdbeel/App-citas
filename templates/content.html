@@ -1,13 +1,18 @@
-{% extends 'layout.html' %}
-{% block title %}
-    Home
-{% endblock title %}
-
-{% block content %}
-    <header class="header">
-        <div class="entry">
-            <h1></h1>
-            <button></button>
-        </div>
-    </header>
+{% extends 'layout.html' %} {% block title %} Home {% endblock title %} {% block
+content %}
+<header class="header">
+   <div class="entry">
+      <blockquote>
+         Un portal de citas para hombres y mujeres que estån comprometidos pero
+         estan buscando una relaci6n paralela ol extramatrimonial
+      </blockquote>
+      <button>
+         Ver mas
+         <img
+            src="{{url_for('static', filename='img/arrow-bar-right.svg')}}"
+            alt=""
+         />
+      </button>
+   </div>
+</header>
 {% endblock content %}
