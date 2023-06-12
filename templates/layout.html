@@ -16,45 +16,58 @@
    </head>
    <body class="flex flex-col items-center">
       <nav
-         class=" w-full p-2 bg-red-500 text-white 2xl:flex justify-around items-center max-w-screen-2xl rounded-b-2xl "
+         class="navbar w-full max-w-screen-2xl flex px-4 py-2 bg-red-500 text-white rounded-b-none justify-around items-center 2xl:flex 2xl:rounded-b-2xl"
       >
-         <div class="flex items-center gap-3">
-            <img
-               src="{{url_for('static', filename='img/nav-logo.svg')}}"
-               alt="nav logo"
-            />
-            <span class="text-2xl font-black">MORE LOVE</span>
+         <div class="bar-container">
+            <div class="flex items-center gap-3">
+               <img
+                  src="{{url_for('static', filename='img/nav-logo.svg')}}"
+                  alt="nav logo"
+               />
+               <span class="text-2xl font-black">MORE LOVE</span>
+            </div>
+            <button class="md:hidden" onclick="show_navbar()">
+               <img
+                  src="{{url_for('static', filename='img/expand-menu-icon.svg')}}"
+                  alt="expand menu in mobile"
+               />
+            </button>
          </div>
-         <ul class="flex gap-3 font-thin">
-            <li class="hover:opacity-70">
-               <a href="/" class="flex gap-1">
-                  <img
-                     src="{{url_for('static', filename='img/nav-home-icon.svg')}}"
-                     alt="nav home icon"
-                  />
-                  <p>Home</p></a
-               >
-            </li>
-            <li class="hover:opacity-70">
-               <a href="/login" class="flex gap-1">
-                  <img
-                     src="{{url_for('static', filename='img/nav-login-icon.svg')}}"
-                     alt="nav login icon"
-                  />
-                  <p>Login</p>
-               </a>
-            </li>
-            <li class="hover:opacity-70">
-               <a href="/register" class="flex gap-1">
-                  <img
-                     src="{{url_for('static', filename='img/nav-register-icon.svg')}}"
-                     alt="nav register icon"
-                  />
-                  <p>Register</p>
-               </a>
-            </li>
-         </ul>
+
+         <div class="wrapper" id="wrapper">
+            <ul class="expandable gap-4 font-regular text-xl md:flex md:font-thin md:gap-3 md:text-base">
+               <li class="hover:opacity-70">
+                  <a href="/" class="flex gap-1">
+                     <img
+                        src="{{url_for('static', filename='img/nav-home-icon.svg')}}"
+                        alt="nav home icon"
+                     />
+                     <p>Home</p></a
+                  >
+               </li>
+               <li class="hover:opacity-70">
+                  <a href="/login" class="flex gap-1">
+                     <img
+                        src="{{url_for('static', filename='img/nav-login-icon.svg')}}"
+                        alt="nav login icon"
+                     />
+                     <p>Login</p>
+                  </a>
+               </li>
+               <li class="hover:opacity-70">
+                  <a href="/register" class="flex gap-1">
+                     <img
+                        src="{{url_for('static', filename='img/nav-register-icon.svg')}}"
+                        alt="nav register icon"
+                     />
+                     <p>Register</p>
+                  </a>
+               </li>
+            </ul>
+         </div>
       </nav>
       {% block content %} {% endblock content %}
+
+      <script src="{{url_for('static', filename='js/expand_menu.js')}}"></script>
    </body>
 </html>
