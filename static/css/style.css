@@ -4,33 +4,67 @@
    box-sizing: border-box;
 }
 
-
-@media (width <= 768px) { 
-   .bar-container{
+/* NAVBAR MOBILE MEDIAQUERY */
+@media (width <= 768px) {
+   .bar-container {
       display: flex;
       justify-content: space-between;
       min-width: 100%;
    }
-   .navbar{
+   .navbar {
       flex-direction: column;
    }
 
-   .expandable{
+   .expandable {
       min-height: 0;
       display: flex;
       flex-direction: column;
    }
-   .wrapper{
+   .wrapper {
       min-width: 100%;
       display: grid;
       grid-template-rows: 0fr;
       overflow: hidden;
       transition: grid-template-rows 200ms;
-
    }
 
-   .wrapper.open{
+   .wrapper.open {
       padding-block: 1em;
-      grid-template-rows:1fr;
+      grid-template-rows: 1fr;
    }
 }
+/* NAVBAR MOBILE MEDIAQUERY */
+
+/* CONTENT HOME PAGE HEART BTN STYLES */
+
+.heart-btn {
+   transition: transform 200ms ease;
+   position: relative;
+}
+
+.heart-btn:before, .heart-btn:after {
+   position: absolute;
+   z-index: -1;
+   inset: -50px 0 0 -16px;
+   content: "";
+   width: 90px;
+   height: 150px;
+   background-color: #ef4444;
+   border-top-left-radius: 50%;
+   border-top-right-radius: 50%;
+   transform: rotate(-45deg);
+}
+.heart-btn:before{
+      border-bottom-right-radius: 50%;
+
+}
+.heart-btn:after {
+   inset: -50px 0 0 27px;
+   border-bottom-left-radius: 50%;
+   transform: rotate(45deg);
+}
+
+.heart-btn:hover{
+   transform: scale(1.2);
+}
+/* CONTENT HOME PAGE HEART BTN STYLES */
