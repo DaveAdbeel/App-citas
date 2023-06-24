@@ -12,6 +12,7 @@
          rel="stylesheet"
          href='{{url_for("static", filename="css/style.css")}}'
       />
+      {% block css_personalizated %}{% endblock css_personalizated %}
       <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp"></script>
    </head>
    <body class="flex flex-col items-center h-screen bg-[url('{{url_for('static', filename='img/hero-homepage.jpg')}}')] bg-no-repeat bg-center bg-[length:100%_100%] backdrop-hue-rotate-[320deg] backdrop-grayscale-[0.1] backdrop-saturate-200 backdrop-blur-md">

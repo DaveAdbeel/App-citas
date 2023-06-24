@@ -4,6 +4,9 @@
    box-sizing: border-box;
 }
 
+body{
+   background-color: rgb(220 38 38);
+}
 /* NAVBAR MOBILE MEDIAQUERY */
 @media (width <= 768px) {
    .bar-container {

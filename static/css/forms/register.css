@@ -1,0 +1,20 @@
+body{
+    background: none!important;
+    backdrop-filter: none!important;
+    background-color: rgb(220 38 38)!important;
+}
+
+@media (width < 768px) {
+    h1#mt-100{
+        margin-top: 100px;
+    }
+    div#pb-50{
+        padding-bottom:50px!important;
+    }
+}
+
+@media (width < 350px) {
+    h1#mt-100{
+        margin-top: 200px;    
+    }
+}
