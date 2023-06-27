@@ -15,13 +15,11 @@ class User:
     def insert_user(cls, data):
         try:
             table = "usuarios"
-            query = f"""insert into `{table}` (nombre, email, contraseñaa, id_tipo_de_usuario, id_interes_sexo)
+            query = f"""insert into `{table}` (nombre, email, contraseña, id_tipo_de_usuario, id_interes_sexo)
              values ("{data['nombre']}", "{data['email']}", "{data['password']}", {data['user_type']}, {data['interest_sex']})
             """
             result = connectToMySQL(db).query_db(query)
-            if result:
-                return 200
-            else:
-                return "Ocurrio un error, intente registrarse nuevamete"
+            
+            return 200 if result else 500
         except Exception as e:
             raise Exception(f"Error: {e}")
