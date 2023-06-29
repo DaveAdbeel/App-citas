@@ -23,3 +23,15 @@ class User:
             return 200 if result else 500
         except Exception as e:
             raise Exception(f"Error: {e}")
+        
+    @classmethod
+    def user_exists(self, email):
+        try:
+            table = "usuarios"
+            query = f"""
+            select email from {table} where email = '{email}'
+            """
+            result = connectToMySQL(db).query_db(query)
+            return result
+        except Exception as e:
+            raise Exception(f"Error: {e}")
