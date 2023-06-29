@@ -1,31 +1,38 @@
 {% extends 'layout.html' %} {% block title %} Home {% endblock title %} {% block
 content %}
-{% include 'components/navbar.html' %}
-<link rel="stylesheet" href="{{url_for('static', filename='css/content.css')}}">
-<header class="flex justify-center w-full h-full relative">
-   <div
-      class="flex justify-evenly items-center gap-5 text-white flex-col md:flex-row sm:gap-2"
-   >
-      <blockquote
-         class="flex items-center w-5/6 text-2xl w-3/4 font-semibold md:w-3/6 sm:text-3xl lg:text-4xl border-solid border-4 p-4" style="
-            background: linear-gradient(90deg, #f00, #f44);
-            --webkit-text-fill-color: transparent;
-            --webkit-background-clip: text;
-            "
-      >
-         <p class="py-4">Un portal de citas para hombres y mujeres que estan comprometidos pero
-         estan buscando una relacion paralela ol extramatrimonial</p>
-      </blockquote>
-      <a href="#">
-         <button class="heart-btn py-3 px-2 text-2xl">
-            <div></div>
-            <div></div>
 
-            Ver mas
-         </button>
-      </a>
-   </div>   
-  
-</header>
+
+<style>
+
+</style>
+
+<main class="grid grid-cols-1 justify-between w-full h-full max-w-screen-2xl md:grid-cols-2  ">
+   <div class="flex flex-col justify-between">
+      {% include 'components/navbar.html' %}
+
+      <header class="flex items-center md:px-4 sm:px-16 px-4 h-full " >
+         
+         <div
+            class="text-red-600 flex h-full  flex-col justify-evenly  "
+         >  
+            <blockquote
+               class="flex flex-col gap-2 lg:w-5/6"
+               
+            >
+            <span class="text-6xl lg:text-7xl text-green-500 font-black underline md:text-start text-center">Encuentra</span>
+            <p class="text-4xl lg:text-5xl text-gray-900 font-base md:text-start text-center">tu <span class="text-4xl lg:text-5xl text-red-600 font-black underline">amor verdadero</span> donde los corazones <span class="text-cyan-400 font-black underline">se conectan.</span></p>
+
+            </blockquote>
+            <a href="/register" class="w-full text-center md:py-6 py-4 bg-red-600 rounded-md text-white font-black text-2xl md:text-3xl max-w-16">
+                  Conecta ahora
+               </button>
+            </a>
+         </div>
+      </header>
+   </div>
+   <div class="h-screen p-3 hidden md:block">
+      <img class="object-cover h-full w-full  rounded-xl" src="{{url_for("static", filename="img/aside-home.jpg")}}" alt="torre eifel paris">
+   </div>
+</main>
 <script src="{{url_for('static', filename='js/expand_menu.js')}}"></script>
 {% endblock content %}
