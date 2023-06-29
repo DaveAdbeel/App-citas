@@ -57,12 +57,12 @@ def register():
 
             query_status = User.insert_user(user_data)
 
-            if not query_status == 200:
-                status_account = status_msg["error"]
-                isAccountCreated = False
-            else:
+            if query_status == 200:
                 status_account = status_msg["success"]
                 isAccountCreated = True
+            else:
+                status_account = status_msg["error"]
+                isAccountCreated = False
 
     flash(status_account)
 
