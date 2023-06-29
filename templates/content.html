@@ -1,7 +1,7 @@
 {% extends 'layout.html' %} {% block title %} Home {% endblock title %} {% block
-content %}"
+content %}
+{% include 'components/navbar.html' %}
 <link rel="stylesheet" href="{{url_for('static', filename='css/content.css')}}">
-
 <header class="flex justify-center w-full h-full relative">
    <div
       class="flex justify-evenly items-center gap-5 text-white flex-col md:flex-row sm:gap-2"
@@ -27,4 +27,5 @@ content %}"
    </div>   
   
 </header>
+<script src="{{url_for('static', filename='js/expand_menu.js')}}"></script>
 {% endblock content %}

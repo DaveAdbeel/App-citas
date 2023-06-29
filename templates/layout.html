@@ -15,61 +15,8 @@
       {% block css_personalizated %}{% endblock css_personalizated %}
       <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp"></script>
    </head>
-   <body class="flex flex-col items-center h-screen">
-      <nav
-         class="navbar w-full max-w-screen-2xl flex px-4 py-2 bg-red-500 text-white rounded-b-none justify-around items-center 2xl:flex 2xl:rounded-b-2xl" 
-      >
-         <div class="bar-container">
-            <div class="flex items-center gap-3">
-               <img
-                  src="{{url_for('static', filename='img/nav-logo.svg')}}"
-                  alt="nav logo"
-               />
-               <span class="text-2xl font-black">MORE LOVE</span>
-            </div>
-            <button class="md:hidden" onclick="show_navbar()">
-               <img
-                  src="{{url_for('static', filename='img/expand-menu-icon.svg')}}"
-                  alt="expand menu in mobile"
-               />
-            </button>
-         </div>
-
-         <div class="wrapper" id="wrapper">
-            <ul class="expandable gap-4 font-regular text-xl md:flex md:font-thin md:gap-3 md:text-base">
-               <li class="hover:opacity-70">
-                  <a href="/" class="flex gap-1">
-                     <img
-                        src="{{url_for('static', filename='img/nav-home-icon.svg')}}"
-                        alt="nav home icon"
-                     />
-                     <p>Pagina principal</p></a
-                  >
-               </li>
-               <li class="hover:opacity-70">
-                  <a href="/login" class="flex gap-1">
-                     <img
-                        src="{{url_for('static', filename='img/nav-login-icon.svg')}}"
-                        alt="nav login icon"
-                     />
-                     <p>Inicia sesion</p>
-                  </a>
-               </li>
-               <li class="hover:opacity-70">
-                  <a href="/register" class="flex gap-1">
-                     <img
-                        src="{{url_for('static', filename='img/nav-register-icon.svg')}}"
-                        alt="nav register icon"
-                     />
-                     <p>Registrate</p>
-                  </a>
-               </li>
-            </ul>
-         </div>
-      </nav>
-      
+   <body class="flex flex-col items-center justify-center h-screen">
+   
       {% block content %} {% endblock content %}
-
-      <script src="{{url_for('static', filename='js/expand_menu.js')}}"></script>
    </body>
 </html>
