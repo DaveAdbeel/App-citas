@@ -1,43 +1,38 @@
 <nav
-         class="navbar w-full max-w-screen-2xl flex px-4 py-2 bg-red-500 text-white rounded-b-none justify-around items-center 2xl:flex 2xl:rounded-b-2xl" 
-      >
-         <div class="bar-container">
-            <div class="flex items-center gap-3">
-               <img
-                  src="{{url_for('static', filename='img/nav-logo.svg')}}"
-                  alt="nav logo"
-               />
-               <span class="text-2xl font-bold">More love</span>
-            </div>
-            <button class="md:hidden" onclick="show_navbar()">
-               <img
-                  src="{{url_for('static', filename='img/expand-menu-icon.svg')}}"
-                  alt="expand menu in mobile"
-               />
-            </button>
-         </div>
+   class="navbar w-full max-w-screen-2xl flex px-4 py-2 text-white rounded-b-none justify-between items-center 2xl:flex 2xl:rounded-b-2xl"
+>
+   <div class="bar-container">
+      <div class="flex items-center">
+         <img
+            src="{{url_for('static', filename='img/nav-logo.svg')}}"
+            alt="nav logo"
+         />p
+         <span class="font-black text-3xl text-red-500">More love</span>
+      </div>
+      <button class="lg:hidden" onclick="show_navbar()">
+         <img
+            src="{{url_for('static', filename='img/expand-menu-icon.svg')}}"
+            alt="expand menu in mobile"
+         />
+      </button>
+   </div>
 
-         <div class="wrapper" id="wrapper">
-            <ul class="expandable gap-4 font-regular text-xl md:flex md:font-thin md:gap-3 md:text-base">
+   <div class="wrapper" id="wrapper">
+      <ul
+         class="expandable gap-4 font-semibold  md:flex md:gap-4 text-red-600"
+      >
+         <li class="hover:opacity-80">
+            <a href="/login" >
                
-               <li class="hover:opacity-70">
-                  <a href="/login" class="flex gap-1">
-                     <img
-                        src="{{url_for('static', filename='img/nav-login-icon.svg')}}"
-                        alt="nav login icon"
-                     />
-                     <p>Inicia sesion</p>
-                  </a>
-               </li>
-               <li class="hover:opacity-70">
-                  <a href="/register" class="flex gap-1">
-                     <img
-                        src="{{url_for('static', filename='img/nav-register-icon.svg')}}"
-                        alt="nav register icon"
-                     />
-                     <p>Registrate</p>
-                  </a>
-               </li>
-            </ul>
-         </div>
-      </nav>
+               <p class="text-xl lg:text-sm ">Inicia sesion</p>
+            </a>
+         </li>
+         <li class="hover:opacity-80">
+            <a href="/register" >
+               
+               <p class="text-xl  lg:text-sm">Registrate</p>
+            </a>
+         </li>
+      </ul>
+   </div>
+</nav>
