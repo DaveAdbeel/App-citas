@@ -1,20 +1,21 @@
 {% extends 'layout.html' %} {% block title %} Home {% endblock title %} {% block
-content %}
+content %}"
+<link rel="stylesheet" href="{{url_for('static', filename='css/content.css')}}">
 
 <header class="flex justify-center w-full h-full relative">
    <div
-      class="flex justify-evenly items-center gap-5 text-white flex-col sm:flex-row sm:gap-2"
+      class="flex justify-evenly items-center gap-5 text-white flex-col md:flex-row sm:gap-2"
    >
       <blockquote
-         class="text-2xl text-center w-3/4 font-semibold sm:w-3/6 sm:text-3xl lg:text-4xl border-solid border-4 p-4" style="
+         class="flex items-center w-5/6 text-2xl w-3/4 font-semibold md:w-3/6 sm:text-3xl lg:text-4xl border-solid border-4 p-4" style="
             background: linear-gradient(90deg, #f00, #f24);
             text-wrap:balance;
             --webkit-text-fill-color: transparent;
             --webkit-background-clip: text;
             "
       >
-         Un portal de citas para hombres y mujeres que estan comprometidos pero
-         estan buscando una relacion paralela ol extramatrimonial
+         <p class="py-4">Un portal de citas para hombres y mujeres que estan comprometidos pero
+         estan buscando una relacion paralela ol extramatrimonial</p>
       </blockquote>
       <a href="#">
          <button class="heart-btn py-3 px-2 text-2xl">
