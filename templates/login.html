@@ -1,13 +1,25 @@
 {% extends 'layout.html' %}
 
 {% block content %}
+<style>
 
-<section class="bg-red-600">
+   :root{
+      --red-background:#dc2020;
+   }
+   body{
+      background-color: #ff1a1add;
+   }
+   #card{
+      background-color:#dc2626;
+   }
+</style>
+
+<section >
    <div
       class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0"
    >
       <a
-         href="#"
+         href="/"
          class="flex items-center mb-6 text-2xl font-semibold text-white"
       >
          <img
@@ -15,14 +27,14 @@
             src="{{url_for('static', filename='img/nav-logo.svg')}}"
             alt="logo"
          />
-        More love
+      <p class="font-black">More love</p>
       </a>
       <div
-         class="w-full bg-red-700 shadow-md md:mt-0 sm:max-w-md xl:p-0"
+         class="w-full bg-red-600 shadow-2xl rounded-md md:mt-0 sm:max-w-md xl:p-0" id="card"
       >
          <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
             <h1
-               class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl text-white"
+               class="text-xl font-bold leading-tight tracking-tight md:text-2xl text-white"
             >
                Inicia sesion en tu cuenta
             </h1>
@@ -30,7 +42,7 @@
                <div>
                   <label
                      for="email"
-                     class="block mb-2 text-sm font-medium text-gray-900 text-white"
+                     class="block mb-2 text-sm font-medium text-white"
                      >Email</label
                   >
                   <input
@@ -38,7 +50,7 @@
                      name="email"
                      pattern=".+@.+\..+"
                      id="email"
-                     class="w-full text-gray-700 placeholder-red-500 bg-white border rounded-md dark:bg-red-800 dark:text-gray-300 dark:border-red-900 focus:outline-none focus:ring focus:ring-opacity-40 focus:ring-red-300 focus:border-none py-2"
+                     class="w-full text-gray-700 placeholder-red-500 bg-red-800 border-none  outline-red-800  rounded-md focus:outline-none focus:ring focus:ring-opacity-40 focus:ring-red-300 focus:border-none py-2"
                      placeholder="juanrodriguez@gmail.com"
                      required
                   />
@@ -46,7 +58,7 @@
                <div>
                   <label
                      for="password"
-                     class="block mb-2 text-sm font-medium text-gray-900 text-white"
+                     class="block mb-2 text-sm font-medium text-white"
                      >Contaseña</label
                   >
                   <input
@@ -54,14 +66,14 @@
                      name="password"
                      id="password"
                      placeholder="••••••••"
-                     class="w-full text-gray-700 placeholder-red-500 bg-white border rounded-md dark:bg-red-800 dark:text-gray-300 dark:border-red-900 focus:outline-none focus:ring focus:ring-opacity-40 focus:ring-red-300 focus:border-none py-2"
+                     class="w-full placeholder-red-500 bg-red-800 outline-red-800  border-none rounded-md focus:outline-none focus:ring focus:ring-opacity-40 focus:ring-red-300 focus:border-none py-2"
                      required
                   />
                </div>
               
                <button
                   type="submit"
-                  class="outline outline-transparent transition-colors w-full text-white  focus:ring-primary-300 font-medium rounded-sm  text-md px-5 py-2.5 my-4 text-center   hover:bg-red-800"
+                  class="outline outline-red-700 outline-2 transition w-full text-white font-medium rounded-md  text-md px-5 py-2.5 my-4 text-center   hover:bg-red-700 transition hover:scale-105 hover:-translate-y-1  duration-300 shadow-inner "
                >
                   Iniciar sesion
                </button>
