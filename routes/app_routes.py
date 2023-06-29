@@ -32,7 +32,8 @@ def login():
 @Routes.route("/register", methods=["GET", "POST"])
 def register():
     isAccountCreated = False
-    status_msg = {"success": "Cuenta creada con exito!", "error": "Error al crear la cuenta!"}
+    status_msg = {"success": "Cuenta creada con exito!", "error": "Error al crear la cuenta!", "accountIsCreated": "La cuenta ya existe!"}
+    status_account = None
 
     if request.method == "POST":
         username = request.form["username"]
@@ -41,16 +42,29 @@ def register():
         interest_sex = request.form["interest_sex"]
         user_type = request.form["user_type"]
 
-        hashed_password = bcrypt.generate_password_hash(password).decode("utf-8")
+        if User.user_exists(email):
+            status_account = status_msg["accountIsCreated"]
+            isAccountCreated = False
+        else:
+            hashed_password = bcrypt.generate_password_hash(password).decode("utf-8")
+            user_data = {
+                "nombre": username,
+                "email": email,
+                "interest_sex": interest_sex,
+                "user_type": user_type,
+                "password": hashed_password,
+            }
 
-        query_status = User.insert_user(
-            {"nombre": username, "email": email, "interest_sex": interest_sex, "user_type": user_type, "password": hashed_password}
-        )
+            query_status = User.insert_user(user_data)
 
-        status_account = status_msg["success"] if query_status == 200 else status_msg["error"]
-        isAccountCreated = True if status_account == status_msg["success"] else False
+            if not query_status == 200:
+                status_account = status_msg["error"]
+                isAccountCreated = False
+            else:
+                status_account = status_msg["success"]
+                isAccountCreated = True
 
-        flash(status_account)
+    flash(status_account)
 
     sexes = Interest_Sex.get_all()
     user_types = User_Type.get_all()
