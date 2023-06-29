@@ -136,19 +136,26 @@ css_personalizated%}
                </button>
             </form>
          </div>
-         {% for message in messages%} {% if isAccountCreated %}
-         
+         {% for message in messages%} 
+         {% if isAccountCreated %}
          {% with message_client =  "Ahora podras encontrar tu pareja ideal sin problemas", color_btn = "green"  %}
                {% include "components/alert.html" %}
-            {% endwith %}
+         {% endwith %}
             
 
-         {% else %}
+         {% elif message != "La cuenta ya existe!" and message != None%}
+         
          {% with message_client =  "Intente registrarse nuevamente", color_btn = "red" %}
                {% include "components/alert.html" %}
-            {% endwith %}
+         {% endwith %}
 
-         {% endif %} {% endfor %}
+         {% else %}
+         {% with message_client =  "Inicie sesion o cree una nueva con otro email", color_btn = "red" %}
+               {% include "components/alert.html" %}
+         {% endwith %}
+         {% endif %} 
+         
+         {% endfor %}
 
       </div>
    </div>
