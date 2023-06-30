@@ -35,3 +35,33 @@ class User:
             return result
         except Exception as e:
             raise Exception(f"Error: {e}")
+
+    @classmethod
+    def get_passwd_hash(self, email):
+        try:
+            table = "usuarios"
+            query = f"""
+            select contraseña from {table} where email = '{email}'
+            """
+            result = connectToMySQL(db).query_db(query)
+            contraseña = result[0]["contraseña"]
+            
+            return contraseña
+            
+        except Exception as e:
+            raise Exception(f"Error: {e}") 
+    
+    @classmethod
+    def get_username(self, email):
+        try:
+            table = "usuarios"
+            query = f"""
+            select nombre from {table} where email = '{email}'
+            """
+            result = connectToMySQL(db).query_db(query)
+            username = result[0]["nombre"]
+            
+            return username
+            
+        except Exception as e:
+            raise Exception(f"Error: {e}")
