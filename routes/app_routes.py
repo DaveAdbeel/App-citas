@@ -1,6 +1,7 @@
 from flask import (
     Blueprint,
     flash,
+    g,
     get_flashed_messages,
     redirect,
     render_template,
@@ -18,16 +19,51 @@ Routes = Blueprint("routes", __name__)
 
 bcrypt = Bcrypt()
 
+@Routes.before_request
+def middleware():
+    g.user = None
+   
+    if 'user' in session:
+        g.user = session["user"]
+
+@Routes.route('/logout')
+def logout():
+    session.pop('user', None)
+    return redirect(url_for("routes.index"))
 
 @Routes.route("/")
-def home():
+def index():
     return render_template("content.html")
 
+@Routes.route("/home")
+def home():
+    if g.user:   
+        return render_template("home.html", username=session["user"])
+    return redirect(url_for("routes.index"))
 
-@Routes.route("/login")
+@Routes.route("/login", methods=["GET", "POST"])
 def login():
-    return render_template("login.html")
+    if request.method == "POST":
+        status_msg = {
+            "incorrectEmail": "El email no existe",
+            "incorrectPassword": "Contraseña incorrecta",
+        }
+        session.pop("username", None)
 
+        email = request.form["email"]
+        password = request.form["password"]
+
+        if not User.user_exists(email):
+            flash(status_msg["incorrectEmail"])
+        elif not bcrypt.check_password_hash(User.get_passwd_hash(email), password):
+            flash(status_msg["incorrectPassword"])
+        else:
+            username = User.get_username(email)
+            session["user"] = username
+            return redirect(url_for("routes.home"))
+        
+    messages = get_flashed_messages()
+    return render_template("login.html", messages=messages)
 
 @Routes.route("/register", methods=["GET", "POST"])
 def register():
