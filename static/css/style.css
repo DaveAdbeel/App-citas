@@ -6,7 +6,7 @@
 }
 /* UNDERLINE LINKS NAVBAR HOVER STYLES */
 #wrapper{
-   transform: translateY(0.2rem);
+   transform: translateY(0.4rem);
 }
 #wrapper ul li a {
   color: #ff4444;
