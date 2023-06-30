@@ -38,7 +38,7 @@
             >
                Inicia sesion en tu cuenta
             </h1>
-            <form class="flex flex-col justify-center gap-4" action="/login">
+            <form class="flex flex-col justify-center gap-4" action="/login" method="POST">
                <div>
                   <label
                      for="email"
@@ -50,7 +50,7 @@
                      name="email"
                      pattern=".+@.+\..+"
                      id="email"
-                     class="w-full text-gray-700 placeholder-red-500 bg-red-800 border-none  outline-red-800  rounded-md focus:outline-none focus:ring focus:ring-opacity-40 focus:ring-red-300 focus:border-none py-2"
+                     class="w-full text-slate-50 placeholder-red-500 bg-red-800 border-none  outline-red-800  rounded-md focus:outline-none focus:ring focus:ring-opacity-40 focus:ring-red-300 focus:border-none py-2"
                      placeholder="juanrodriguez@gmail.com"
                      required
                   />
@@ -66,7 +66,7 @@
                      name="password"
                      id="password"
                      placeholder="••••••••"
-                     class="w-full placeholder-red-500 bg-red-800 outline-red-800  border-none rounded-md focus:outline-none focus:ring focus:ring-opacity-40 focus:ring-red-300 focus:border-none py-2"
+                     class="w-full placeholder-red-500 bg-red-800 outline-red-800  border-none rounded-md focus:outline-none focus:ring focus:ring-opacity-40 focus:ring-red-300 focus:border-none py-2 text-slate-50 "
                      required
                   />
                </div>
@@ -88,7 +88,21 @@
             </form>
          </div>
       </div>
+      {% for message in messages%} 
+         {% if message == "El email no existe" %}  
+            {% with message_client = "Crea una cuenta o ingresa un email valido", color_btn = "red" %} 
+               {% include"components/alert.html" %} 
+            {% endwith %} 
+         {% else %}
+            {% with message_client = "Ingresa la contraseña valida", color_btn = "red" %} 
+               {% include"components/alert.html" %} 
+            {% endwith %} 
+         {% endif %} 
+      {% endfor %}
    </div>
 </section>
+
+<script src="{{url_for('static', filename='js/close_alert.js')}}"></script>
+
 
 {% endblock content %}
