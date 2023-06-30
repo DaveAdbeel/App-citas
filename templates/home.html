@@ -1,0 +1,52 @@
+{% extends 'layout.html' %} {% block content %}
+<main class="flex flex-col h-full">
+   <nav
+      class="navbar w-full max-w-screen-2xl flex px-4 py-2 text-white rounded-b-none justify-between lg:justify-start items-center 2xl:flex 2xl:rounded-b-2xl"
+   >
+      <div class="bar-container">
+         <div class="flex items-center">
+            <a href="/home" class="flex items-center">
+               <img
+                  src="{{url_for('static', filename='img/nav-logo.svg')}}"
+                  alt="nav logo"
+               />
+               <span class="font-black text-3xl text-red-500 mr-8"
+                  >More love</span
+               >
+            </a>
+         </div>
+         <button class="lg:hidden" onclick="show_navbar()">
+            <img
+               src="{{url_for('static', filename='img/expand-menu-icon.svg')}}"
+               alt="expand menu in mobile"
+            />
+         </button>
+      </div>
+
+      <div id="wrapper">
+         <ul
+            class="expandable text-red-600 gap-4 font-semibold md:flex md:gap-6 md:items-center"
+         >
+            <li class="hover:opacity-100 hover:text-red-700 opacity-70">
+               <a href="/login">
+                  <p class="text-xl lg:text-sm">Mi cuenta</p>
+               </a>
+            </li>
+            <li
+               class="bg-red-500 transition duration-300 rounded-xl text-slate-200 hover:bg-red-800 hover:text-slate-50"
+            >
+               <a href="/register">
+                  <p class="text-xl lg:text-sm px-4 py-2">
+                     <a href="/logout">Cerrar Sesion</a>
+                  </p>
+               </a>
+            </li>
+         </ul>
+      </div>
+   </nav>
+
+   <h1 class="text-4xl font-black">Bienvenido {{username.capitalize()}}</h1>
+</main>
+<script src="{{url_for('static', filename='js/expand_menu.js')}}"></script>
+
+{% endblock content %}
