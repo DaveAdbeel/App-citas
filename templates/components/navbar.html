@@ -1,5 +1,5 @@
 <nav
-   class="navbar w-full max-w-screen-2xl flex px-4 py-2 text-white rounded-b-none justify-between items-center 2xl:flex 2xl:rounded-b-2xl"
+   class="navbar w-full max-w-screen-2xl flex px-4 py-2 text-white rounded-b-none justify-between lg:justify-start items-center 2xl:flex 2xl:rounded-b-2xl"
 >
    <div class="bar-container">
       <div class="flex items-center">
@@ -7,7 +7,7 @@
             src="{{url_for('static', filename='img/nav-logo.svg')}}"
             alt="nav logo"
          />p
-         <span class="font-black text-3xl text-red-500">More love</span>
+         <span class="font-black text-3xl text-red-500 mr-8">More love</span>
       </div>
       <button class="lg:hidden" onclick="show_navbar()">
          <img
@@ -19,12 +19,12 @@
 
    <div class="wrapper" id="wrapper">
       <ul
-         class="expandable gap-4 font-semibold  md:flex md:gap-4 text-red-600"
+         class="expandable gap-4 font-semibold  md:flex md:gap-3 text-red-600"
       >
          <li class="hover:opacity-80">
             <a href="/login" >
                
-               <p class="text-xl lg:text-sm ">Inicia sesion</p>
+               <p class="text-xl lg:text-sm">Inicia sesion</p>
             </a>
          </li>
          <li class="hover:opacity-80">
