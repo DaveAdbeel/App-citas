@@ -1,5 +1,11 @@
 {% extends 'layout.html' %} 
 {% block title %} More love | Bienvenida {% endblock title %} 
+{% block css_personalizated %}
+<link
+         rel="stylesheet"
+         href='{{url_for("static", filename="css/style.css")}}'
+      />
+{% endblock css_personalizated %}
 {% block content %}
 
 
