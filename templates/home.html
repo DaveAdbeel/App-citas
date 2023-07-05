@@ -1,8 +1,38 @@
 {% extends 'layout.html' %} {% block title %}More love | Chat de parejas{%
 endblock title %} {% block content %}
-<main class="flex flex-col h-full">
+<style>
+      @media (width <= 640px) {
+      .bar-container {
+         display: flex;
+         justify-content: space-between;
+         min-width: 100%;
+      }
+      .navbar {
+         flex-direction: column;
+      }
+
+      .expandable {
+         min-height: 0;
+         display: flex;
+         flex-direction: column;
+      }
+      #wrapper {
+         min-width: 100%;
+         display: grid;
+         grid-template-rows: 0fr;
+         overflow: hidden;
+         transition: grid-template-rows 200ms;
+      }
+
+      #wrapper.open {
+         padding-block: 1em;
+         grid-template-rows: 1fr;
+      }
+   }e
+</style>
+<main class="w-full max-w-screen-2xl flex flex-col h-full px-4">
    <nav
-      class="navbar w-full max-w-screen-2xl flex px-4 py-2 text-white rounded-b-none justify-between lg:justify-start items-center 2xl:flex 2xl:rounded-b-2xl"
+      class="navbar flex px-4 py-2 text-white rounded-b-none justify-between items-center 2xl:flex 2xl:rounded-b-2xl"
    >
       <div class="bar-container">
          <div class="flex items-center">
@@ -17,7 +47,7 @@ endblock title %} {% block content %}
                >
             </a>
          </div>
-         <button class="lg:hidden" onclick="show_navbar()">
+         <button class="sm:hidden" onclick="show_navbar()">
             <img
                src="https://res.cloudinary.com/dm8e8z3bo/image/upload/f_auto,q_auto/v1688342075/app_citas/icons/expand_menu_icon.webp"
                alt="expand menu in mobile"
@@ -28,18 +58,18 @@ endblock title %} {% block content %}
 
       <div id="wrapper">
          <ul
-            class="expandable text-red-600 gap-4 font-semibold md:flex md:gap-6 md:items-center"
+            class="expandable text-red-600 gap-4 font-semibold sm:flex sm:items-center sm:gap-6 text-2xl sm:text-xl"
          >
             <li class="hover:opacity-100 hover:text-red-700 opacity-70">
                <a href="/login">
-                  <p class="text-xl lg:text-sm">Mi cuenta</p>
+                  <p class="pl-4">Mi cuenta</p>
                </a>
             </li>
             <li
-               class="bg-red-500 transition duration-300 rounded-xl text-slate-200 hover:bg-red-800 hover:text-slate-50"
+               class="bg-red-500 transition duration-300 rounded-xl text-slate-200 hover:bg-red-800 hover:text-slate-50 sm:max-w-fit"
             >
                <a href="/register">
-                  <p class="text-xl lg:text-sm px-4 py-2">
+                  <p class="px-8 py-2">
                      <a href="/logout">Cerrar Sesion</a>
                   </p>
                </a>
@@ -47,9 +77,11 @@ endblock title %} {% block content %}
          </ul>
       </div>
    </nav>
-
-   <h1 class="text-4xl font-black">Bienvenido {{username.capitalize()}}</h1>
 </main>
 <script src="{{url_for('static', filename='js/expand_menu.js')}}"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+<script>
+   Swal.fire("¡Bienvenido {{username.capitalize()}}!", "Encuentra el amor y conéctate con personas interesantes. Sé amable, respetuoso y auténtico al chatear.", "info");
+</script>
 {% endblock content %}
