@@ -61,8 +61,8 @@ endblock title %} {% block content %}
             class="expandable text-red-600 gap-4 font-semibold sm:flex sm:items-center sm:gap-6 text-2xl sm:text-xl"
          >
             <li class="hover:opacity-100 hover:text-red-700 opacity-70">
-               <a href="home/my_account">
-                  <p class="pl-4">Mi cuenta</p>
+               <a href="/my_profile">
+                  <p>Mi cuenta</p>
                </a>
             </li>
             <li
@@ -78,10 +78,11 @@ endblock title %} {% block content %}
       </div>
    </nav>
 </main>
+
+
+
+
 <script src="{{url_for('static', filename='js/expand_menu.js')}}"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-<script>
-   Swal.fire("¡Bienvenido {{username.capitalize()}}!", "Encuentra el amor y conéctate con personas interesantes. Sé amable, respetuoso y auténtico al chatear.", "info");
-</script>
+{% include 'components/alert_home.html' %}
 {% endblock content %}
