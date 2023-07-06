@@ -38,8 +38,12 @@ def index():
 @Routes.route("/home")
 def home():
     if g.user:   
-        return render_template("home.html", username=session["user"])
+        return render_template("home.html", username=session["username"])
     return redirect(url_for("routes.index"))
+
+@Routes.route("/home/my_account", methods=["GET", "POST"])
+def show_account():
+    return render_template("my_account.html")
 
 @Routes.route("/login", methods=["GET", "POST"])
 def login():
@@ -58,8 +62,11 @@ def login():
         elif not bcrypt.check_password_hash(User.get_passwd_hash(email), password):
             flash(status_msg["incorrectPassword"])
         else:
-            username = User.get_username(email)
-            session["user"] = username
+            user = User.get_user(email)
+            
+            session["user"] = user
+            session["username"] = user["nombre"]
+            
             return redirect(url_for("routes.home"))
         
     messages = get_flashed_messages()
