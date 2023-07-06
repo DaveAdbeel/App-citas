@@ -15,37 +15,24 @@ from models.interest_sex import Interest_Sex
 from models.user import User
 from models.user_type import User_Type
 
-Routes = Blueprint("routes", __name__)
+startup_routes = Blueprint("startup_routes", __name__)
 
 bcrypt = Bcrypt()
 
-@Routes.before_request
+@startup_routes.before_request
 def middleware():
     g.user = None
-   
+    
     if 'user' in session:
         g.user = session["user"]
 
-@Routes.route('/logout')
-def logout():
-    session.pop('user', None)
-    return redirect(url_for("routes.index"))
 
-@Routes.route("/")
+@startup_routes.route("/")
 def index():
     return render_template("content.html")
 
-@Routes.route("/home")
-def home():
-    if g.user:   
-        return render_template("home.html", username=session["username"])
-    return redirect(url_for("routes.index"))
 
-@Routes.route("/home/my_account", methods=["GET", "POST"])
-def show_account():
-    return render_template("my_account.html")
-
-@Routes.route("/login", methods=["GET", "POST"])
+@startup_routes.route("/login", methods=["GET", "POST"])
 def login():
     if request.method == "POST":
         status_msg = {
@@ -62,17 +49,14 @@ def login():
         elif not bcrypt.check_password_hash(User.get_passwd_hash(email), password):
             flash(status_msg["incorrectPassword"])
         else:
-            user = User.get_user(email)
+            session["user"] = User.get_user(email)            
             
-            session["user"] = user
-            session["username"] = user["nombre"]
-            
-            return redirect(url_for("routes.home"))
+            return redirect(url_for("startup_routes.home"))
         
     messages = get_flashed_messages()
     return render_template("login.html", messages=messages)
 
-@Routes.route("/register", methods=["GET", "POST"])
+@startup_routes.route("/register", methods=["GET", "POST"])
 def register():
     isAccountCreated = False
     status_msg = {"success": "Cuenta creada con exito!", "error": "Error al crear la cuenta!", "accountIsCreated": "La cuenta ya existe!"}
@@ -114,3 +98,31 @@ def register():
     messages = get_flashed_messages()
 
     return render_template("register.html", sexes=sexes, user_types=user_types, messages=messages, isAccountCreated=isAccountCreated)
+
+
+@startup_routes.route('/logout')
+def logout():
+    session.pop('user', None)
+    return redirect(url_for("startup_routes.index"))
+
+
+@startup_routes.route("/home", methods=["GET", "POST"])
+def home():
+    if g.user:
+        return render_template("home.html", username=session["user"]["nombre"])
+    return redirect(url_for("startup_routes.index"))
+
+@startup_routes.route("/my_profile", methods=["GET", "POST"])
+def my_profile():
+    if g.user:
+        if request.method == "POST":
+            user_id = session["user"]["id"]
+            username = request.form["name"]
+            email = request.form["email"]
+            password = request.form["password"]
+            if password != "": password = bcrypt.generate_password_hash(password)
+            User.update_user(user_id, username, email, password)
+            session["user"] = User.get_user(email)
+            
+        return render_template("my_profile.html", user=session["user"])
+    return redirect(url_for("startup_routes.index"))
