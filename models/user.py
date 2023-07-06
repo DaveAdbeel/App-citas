@@ -52,16 +52,15 @@ class User:
             raise Exception(f"Error: {e}") 
     
     @classmethod
-    def get_username(self, email):
+    def get_user(self, email):
         try:
             table = "usuarios"
             query = f"""
-            select nombre from {table} where email = '{email}'
+            select id, nombre, email, id_tipo_de_usuario, id_interes_sexo from {table} where email = '{email}'
             """
             result = connectToMySQL(db).query_db(query)
-            username = result[0]["nombre"]
-            
-            return username
+            user = result[0]
+            return user
             
         except Exception as e:
             raise Exception(f"Error: {e}")
