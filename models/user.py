@@ -52,11 +52,21 @@ class User:
             raise Exception(f"Error: {e}") 
     
     @classmethod
-    def get_user(self, email):
+    def get_user(self, email):  
         try:
-            table = "usuarios"
             query = f"""
-            select id, nombre, email, id_tipo_de_usuario, id_interes_sexo from {table} where email = '{email}'
+            select 
+	        u.id, 
+	        u.nombre, 
+	        u.email, 
+            tipos_de_usuarios.nombre_tipo_usuario as tipo_usuario, 
+            sexo_de_interes.nombre_sexo as sexo_interes,
+            (select count(titulo) from debates where debates.id_usuario = u.id) as discusiones,
+            (select count(contenido) from comentarios where comentarios.id_usuario = u.id) as comentarios
+            from usuarios as u
+            JOIN tipos_de_usuarios ON tipos_de_usuarios.id = id_tipo_de_usuario
+            JOIN sexo_de_interes ON sexo_de_interes.id = id_interes_sexo
+            where email = '{email}';
             """
             result = connectToMySQL(db).query_db(query)
             user = result[0]
@@ -64,3 +74,24 @@ class User:
             
         except Exception as e:
             raise Exception(f"Error: {e}")
+        
+    @classmethod
+    def update_user(self, user_id, username, email, password):
+        try:
+            if password != "":
+                query = f"""
+                UPDATE usuarios
+                SET nombre = '{username}', email = '{email}', contraseña = "{password}"
+                WHERE id = {user_id};
+                """
+            else:
+                query = f"""
+                UPDATE usuarios
+                SET nombre = '{username}', email = '{email}'
+                WHERE id = {user_id};
+                """
+                
+            connectToMySQL(db).query_db(query)
+        except Exception as e:
+            raise Exception(f"Error: {e}")
+            
