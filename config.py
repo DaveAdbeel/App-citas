@@ -12,5 +12,5 @@ _SECRET_KEY = os.getenv("SECRET_KEY")
 
 class config_app():
     def __init__(self, app, route):
-        app.config["SECRET_KEY"] = _SECRET_KEY
+        app.config["SECRET_KEY"] = _SECRET_KEY            
         app.register_blueprint(route)
