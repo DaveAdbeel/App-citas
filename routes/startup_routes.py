@@ -9,7 +9,7 @@ from flask import (
     session,
     url_for,
 )
-from flask_bcrypt import Bcrypt
+from flask_bcrypt import Bcrypt, check_password_hash
 
 from models.interest_sex import Interest_Sex
 from models.user import User
@@ -43,10 +43,11 @@ def login():
 
         email = request.form["email"]
         password = request.form["password"]
-
+        
+        
         if not User.user_exists(email):
             flash(status_msg["incorrectEmail"])
-        elif not bcrypt.check_password_hash(User.get_passwd_hash(email), password):
+        elif not check_password_hash(User.get_passwd_hash(email), password):
             flash(status_msg["incorrectPassword"])
         else:
             session["user"] = User.get_user(email)            
@@ -120,7 +121,7 @@ def my_profile():
             username = request.form["name"]
             email = request.form["email"]
             password = request.form["password"]
-            if password != "": password = bcrypt.generate_password_hash(password)
+            if password != "": password = bcrypt.generate_password_hash(password).decode("utf-8")
             User.update_user(user_id, username, email, password)
             session["user"] = User.get_user(email)
             
