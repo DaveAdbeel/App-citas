@@ -11,6 +11,7 @@ from flask import (
 )
 from flask_bcrypt import Bcrypt, check_password_hash
 
+from models.discussions import Discussions
 from models.interest_sex import Interest_Sex
 from models.user import User
 from models.user_type import User_Type
@@ -110,12 +111,22 @@ def logout():
 @startup_routes.route("/home", methods=["GET", "POST"])
 def home():
     if g.user:
-        return render_template("home.html", username=session["user"]["nombre"])
+        if request.method == "POST" and request.form["title_discussion"]:
+            title_discussion = request.form["title_discussion"]
+            Discussions.insert_discussion({"user_id":session["user"]["id"], "title": title_discussion})
+
+        
+        discussions = Discussions.filter_discussions(Discussions.get_all_discussions())
+        
+        
+        return render_template("home.html", username=session["user"]["nombre"], discussions=discussions)
     return redirect(url_for("startup_routes.index"))
 
 @startup_routes.route("/my_profile", methods=["GET", "POST"])
-def my_profile():
+def my_profile(): 
     if g.user:
+        session["user"] = User.get_user(session["user"]["email"])    
+        
         if request.method == "POST":
             user_id = session["user"]["id"]
             username = request.form["name"]
@@ -124,6 +135,10 @@ def my_profile():
             if password != "": password = bcrypt.generate_password_hash(password).decode("utf-8")
             User.update_user(user_id, username, email, password)
             session["user"] = User.get_user(email)
-            
+        
         return render_template("my_profile.html", user=session["user"])
     return redirect(url_for("startup_routes.index"))
+
+@startup_routes.route("/account/<user_id>")
+def user_account(id):
+    return id

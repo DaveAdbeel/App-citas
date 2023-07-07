@@ -1,0 +1,17 @@
+{% if discussions %}  
+      <div>
+         {% for discussion in discussions %}
+            <h1>#{{discussion["id_usuario"]}} <a href="/account/{{discussion["id_usuario"]}}">{{discussion["nombre_usuario"]}}</a> dice:#{{discussion["id_debate"]}} {{discussion["titulo_debate"]}} publicado: {{discussion["fecha_creacion"]}} editado: {{discussion["fecha_actualizado"]}}</h1>
+
+            <form action="/add_comment" method="POST">
+               <h3>Comentarios: </h3>
+               {% for comment in discussion["comentarios"] %}
+                  
+                  <p>{{comment}}</p>
+               {% endfor %}
+               <input type="text" placeholder="Deja tu comentario">
+               
+            </form>
+         {% endfor %}
+      </div>
+{% endif %}
