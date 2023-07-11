@@ -1,0 +1,35 @@
+{% extends 'layout.html' %}
+{% block title %}More love | Perfil de {{user["nombre"]}}{% endblock title %}
+{% block content %}
+
+{% with route = "/home" %}
+{% include 'components/return_page_btn.html' %}
+{% endwith %}
+
+<section class="w-full">
+  <div class="max-w-4xl mt-20 px-4 mx-auto py-lg:py-16">
+          <div class="sm:flex grid gap-4 mb-4 sm:gap-6 sm:mb-5">
+              <div class="w-full">
+                <h2 class="mb-4 text-2xl font-bold text-gray-900 ">Perfil de {{user["nombre"]}}</h2>
+                  <label for="name" class="block mb-2 text-lg font-medium text-gray-900 ">Nombre completo</label>
+                    <p class="w-full rounded-md border-solid border-2 border-gray-400 py-1 pl-2 text-gray-700 bg-gray-100 text-lg mb-4">{{user["nombre"]}}</p>
+                    <label for="email" class="block mb-2 text-lg font-medium text-gray-900 ">Email</label>
+                      <p class="w-full rounded-md border-solid border-2 border-gray-400 py-1 pl-2 text-gray-700 bg-gray-100 text-lg mb-4">{{user["email"]}}</p>
+                </div>
+              <div class=" w-full mb-4">
+                    <div class="inline-block sm:ml-16 ">
+                      <h1 class="font-semibold text-2xl mb-6">Detalles del usuario</h1>
+                    <p class="text-lg">Tipo de usuario: {{user["tipo_usuario"]}}</p>
+                    <p class="text-lg">Sexo de interes: {{user["sexo_interes"]}}</p>
+                    <p class="text-lg">Discusiones creadas: {{user["discusiones"]}}</p>
+                    <p class="text-lg">Comentarios hechos: {{user["comentarios"]}}</p>
+                    </div>
+                </div>
+                  
+            
+            </div>
+          
+  </div>
+</section>
+
+{% endblock content %}
