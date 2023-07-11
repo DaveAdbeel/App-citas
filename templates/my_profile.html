@@ -6,14 +6,14 @@
 {% include 'components/return_page_btn.html' %}
 {% endwith %}
 
-<section class="bg-white w-full">
-  <div class="max-w-4xl px-4 mx-auto py-lg:py-16">
+<section class="h-full bg-white w-full">
+  <div class="mt-16 max-w-4xl mx-auto px-4 py-lg:py-16">
       <h2 class="mb-4 text-xl font-bold text-gray-900 ">Editar Perfil</h2>
       <form action="/my_profile" method="POST">
           <div class="grid gap-4 mb-4 sm:grid-cols-2 sm:gap-6 sm:mb-5">
               <div class="sm:col-span-2">
                   <label for="name" class="block mb-2 text-sm font-medium text-gray-900 ">Nombre</label>
-                  <input type="text" name="name" id="name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg outline-none  block w-full p-2.5" value="{{user["nombre"]}}" placeholder="Tu nombre" required pattern="[A-Za-z ]{1,50}" title="La contraseña debe tener al menos 2 caracteres y un maximo de 50">
+                  <input type="text" name="name" id="name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg outline-none  block w-full p-2.5" value="{{user["nombre"]}}" placeholder="Tu nombre" required pattern="[A-Za-z ]{1,50}" title="El nombre debe tener al menos 2 caracteres y un maximo de 50">
               </div>
               <div class="w-full">
                   <label for="email" class="block mb-2 text-sm font-medium text-gray-900 ">Email</label>
