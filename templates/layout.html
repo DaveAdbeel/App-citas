@@ -8,13 +8,12 @@
          rel="stylesheet"
          href='{{url_for("static", filename="css/reset.css")}}'
       />
-      
-      <link href="https://api.fontshare.com/v2/css?f[]=satoshi@900,700,500,300,400&display=swap" rel="stylesheet">
+      <link href="https://api.fontshare.com/v2/css?f[]=satoshi@900,700,500,400&display=swap" rel="stylesheet">
       {% block css_personalizated %}{% endblock css_personalizated %}
       <link rel="shortcut icon" href="https://res.cloudinary.com/dm8e8z3bo/image/upload/f_auto,q_auto/v1688342083/app_citas/icons/nav_logo.webp" type="image/x-icon">
       <script src="https://cdn.tailwindcss.com"></script>
    </head>
-   <body class="flex flex-col items-center justify-center h-screen">
+   <body class="h-screen bg-gray-100">
    
       {% block content %} {% endblock content %}
    </body>
