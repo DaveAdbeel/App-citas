@@ -11,19 +11,49 @@ class Discussions:
         self.updated_at = data["updated_at"]
 
     @classmethod
-    def insert_discussion(cls, data):
+    def insert_discussion(self, data):
         try:
-            table = "debates"
-            query = f"""insert into `{table}` (id_usuario, titulo)
+            
+            query = f"""insert into debates (id_usuario, titulo)
             values ("{data['user_id']}", "{data['title']}")
            """
             connectToMySQL(db).query_db(query)
 
         except Exception as e:
             raise Exception(f"Error {e}")
+    @classmethod
+    def delete_discussion(self, uid):
+        try:
+            query1 = f"""delete from comentarios where id_debate = {uid};"""
+            query2 = f"""delete from debates where id_debate = {uid};"""
+           
+            connectToMySQL(db).query_db(query1)
+            connectToMySQL(db).query_db(query2)
+            
+        except Exception as e:
+            raise Exception(f"Error {e}")
+    
+    @classmethod
+    def edit_discussion(self, uid, title):
+        try:
+            query = f"""update debates set titulo = "{title}", updated_at = NOW() WHERE id_debate = {uid};"""
+            
+            connectToMySQL(db).query_db(query)
+            
+        except Exception as e:
+            raise Exception(f"Error {e}")
+    
+    @classmethod
+    def get_discussion(self, uid):
+        try:
+            query = f"""select titulo from debates where id_debate = {uid};"""
+            result = connectToMySQL(db).query_db(query)
+            return result[0]
+        except Exception as e:
+            raise Exception(f"Error {e}")
 
     @classmethod
-    def get_all_discussions(cls):
+    def get_all_discussions(self):
         try:
             query = """ 
             SELECT 
@@ -35,15 +65,15 @@ class Discussions:
               d.updated_at AS fecha_actualizado,
               CASE
                 WHEN c.id_comentario IS NULL THEN 'No hay ningún comentario'
-                ELSE CONCAT(u2.nombre, ' - ', c.id_usuario, ' ', c.created_at, ' - ', c.contenido)
+                ELSE CONCAT(u2.nombre, ' - ', c.id_usuario, ' - ', c.contenido, ' - ', c.id_comentario, ' - ', c.updated_at)
               END AS comentarios
             FROM usuarios u
             JOIN debates d ON u.id = d.id_usuario
             LEFT JOIN comentarios c ON d.id_debate = c.id_debate
             LEFT JOIN usuarios u2 ON c.id_usuario = u2.id
-            ORDER BY d.id_debate, c.id_comentario;
+            ORDER BY d.id_debate desc, c.id_comentario
+            LIMIT 100
             """
-            
             result = connectToMySQL(db).query_db(query)
             
             return result
@@ -53,9 +83,42 @@ class Discussions:
     
     @classmethod
     def filter_discussions(self, data):
+        import datetime
+        def convertir_fecha(fecha):
+            ahora = datetime.datetime.now()
+            tiempo_transcurrido = ahora - fecha
+
+            segundos = tiempo_transcurrido.total_seconds()
+            if segundos < 60:
+                return f"Hace {int(segundos)} segundos"
+
+            minutos = segundos / 60
+            if minutos < 60:
+                return f"Hace {int(minutos)} minutos"
+
+            horas = minutos / 60
+            if horas < 1:
+                return f"Hace {int(horas)} horas"
+
+            dias = horas / 24
+            if dias < 7:
+                return f"Hace {int(dias)} días"
+
+            semanas = dias / 7
+            if semanas < 4:
+                return f"Hace {int(semanas)} semanas"
+
+            meses = dias / 30.436875  # Promedio de días en un mes
+            if meses < 12:
+                return f"Hace {int(meses)} meses"
+
+            años = meses / 12
+            return f"Hace {int(años)} años"
+
         debates = []
         debate_actual = None
-
+        
+                
         for item in data:
             if 'id_debate' in item:
                 if item['id_debate'] != debate_actual:
@@ -73,17 +136,37 @@ class Discussions:
                     debate_actual = item['id_debate']
                 if item['comentarios'] != 'No hay ningún comentario':
                     comentario_parts = item['comentarios'].split(' - ')
-                    nombre_usuario, id_usuario, contenido = comentario_parts[0], comentario_parts[1].split()[0], comentario_parts[2]
+                    nombre_usuario, id_usuario, contenido, id_comentario,  = comentario_parts[0], comentario_parts[1].split()[0], comentario_parts[2], comentario_parts[3]
                     comentario = {
                         'nombre_usuario': nombre_usuario,
                         'id_usuario': int(id_usuario),
-                        'contenido': contenido
+                        'contenido': contenido,
+                        'id_comentario': int(id_comentario)
                     }
                     debate['comentarios'].append(comentario)
             else:
                 print(f"La clave 'id_debate' no existe en el diccionario: {item}")
+        
+        for dato in debates:
+            fecha_creacion = dato['fecha_creacion']
+            fecha_actualizado = dato['fecha_actualizado']
+
+            fecha_creacion_dinamica = convertir_fecha(fecha_creacion)
+            fecha_actualizado_dinamica = convertir_fecha(fecha_actualizado)
+
+            dato['fecha_creacion'] = fecha_creacion_dinamica
+            dato['fecha_actualizado'] = fecha_actualizado_dinamica
+            
+        
+
 
         if debate_actual is not None:
+            fecha_creacion_dinamica = convertir_fecha(debate["fecha_creacion"])
+            fecha_actualizado_dinamica = convertir_fecha(debate["fecha_actualizado"])
+
+            debate["fecha_creacion"] = fecha_creacion_dinamica
+            debate["fecha_actualizado"] = fecha_actualizado_dinamica
+            
             debates.append(debate)
 
         return debates
