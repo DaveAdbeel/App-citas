@@ -11,6 +11,7 @@ from flask import (
 )
 from flask_bcrypt import Bcrypt, check_password_hash
 
+from models.comments import Comments
 from models.discussions import Discussions
 from models.interest_sex import Interest_Sex
 from models.user import User
@@ -19,7 +20,7 @@ from models.user_type import User_Type
 startup_routes = Blueprint("startup_routes", __name__)
 
 bcrypt = Bcrypt()
-
+#middelware
 @startup_routes.before_request
 def middleware():
     g.user = None
@@ -27,7 +28,7 @@ def middleware():
     if 'user' in session:
         g.user = session["user"]
 
-
+#main routes
 @startup_routes.route("/")
 def index():
     return render_template("content.html")
@@ -109,19 +110,14 @@ def logout():
 
 
 @startup_routes.route("/home", methods=["GET", "POST"])
-def home():
-    if g.user:
-        if request.method == "POST" and request.form["title_discussion"]:
-            title_discussion = request.form["title_discussion"]
-            Discussions.insert_discussion({"user_id":session["user"]["id"], "title": title_discussion})
-
-        
+def home():      
+    if g.user:        
         discussions = Discussions.filter_discussions(Discussions.get_all_discussions())
         
         
-        return render_template("home.html", username=session["user"]["nombre"], discussions=discussions)
+        return render_template("home.html", user=session["user"], discussions=discussions)
     return redirect(url_for("startup_routes.index"))
-
+#user routes 
 @startup_routes.route("/my_profile", methods=["GET", "POST"])
 def my_profile(): 
     if g.user:
@@ -139,6 +135,66 @@ def my_profile():
         return render_template("my_profile.html", user=session["user"])
     return redirect(url_for("startup_routes.index"))
 
-@startup_routes.route("/account/<user_id>")
-def user_account(id):
-    return id
+
+@startup_routes.route("/account/<uid>")
+def user_account(uid):
+    if g.user:
+        if int(session["user"]["id"]) == int(uid):
+            return redirect(url_for("startup_routes.my_profile"))
+        
+        user = User.get_user_with_uid(uid)
+        return render_template("components/account_profile.html", user=user)
+
+#Discussions and comments routes
+@startup_routes.route("/add_discussion", methods=["POST"])
+def add_discussion():
+    if g.user:
+        if request.method == "POST":
+            title = request.form["title_discussion"]
+            Discussions.insert_discussion({'user_id': g.user["id"], 'title': title })
+            return redirect(url_for("startup_routes.home"))
+        
+@startup_routes.route("/delete_discussion/<uid>")
+def delete_discussion(uid):
+    if g.user:
+        Discussions.delete_discussion(uid)
+        return redirect(url_for("startup_routes.home"))
+        
+@startup_routes.route("/edit_discussion/<uid>", methods=["GET", "POST"])
+def edit_discussion(uid):
+    if g.user:
+        if request.method == "POST":
+            new_title = request.form["content"]
+            Discussions.edit_discussion(uid, new_title)
+            return redirect(url_for("startup_routes.home"))
+        
+        title_discussion = Discussions.get_discussion(uid)["titulo"]
+        return render_template("components/edit.html",edit_type="discusion",uid=uid, content=title_discussion, route="edit_discussion")
+        
+
+
+@startup_routes.route('/edit_comment/<uid>', methods=['GET', 'POST'])
+def edit_comment(uid):
+    if g.user:
+        if request.method == "POST":
+            new_content = request.form["content"]
+            Comments.edit_comment(uid, new_content)
+            return redirect(url_for("startup_routes.home"))
+        
+        content_comment = Comments.get_comment(uid)["contenido"]
+        return render_template("components/edit.html",edit_type="comentario",uid=uid, content=content_comment, route="edit_comment")
+
+@startup_routes.route('/delete_comment/<uid>')
+def delete_comment(uid):
+   if g.user:
+        Comments.delete_comment(uid)
+        return redirect(url_for("startup_routes.home"))
+
+
+@startup_routes.route('/add_comment/<uid>', methods=['POST'])
+def add_comment(uid):
+    if g.user:
+        if request.method == "POST":
+            content = request.form["comentario"]
+            Comments.insert_comment({'discussion_id': uid, 'user_id': g.user["id"], 'content': content })
+            return redirect(url_for("startup_routes.home"))
