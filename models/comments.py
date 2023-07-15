@@ -45,9 +45,9 @@ class Comments:
     @classmethod
     def delete_comment(self, uid):
         try:
-            query = f"""delete from comentarios where id_comentario = {uid};"""
-            
+            query = f"""delete from likes_usuarios where id_comentario = {uid};"""
             connectToMySQL(db).query_db(query)
-
+            query = f"""delete from comentarios where id_comentario = {uid};"""
+            connectToMySQL(db).query_db(query)
         except Exception as e:
             raise Exception(f"Error {e}")

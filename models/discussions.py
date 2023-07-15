@@ -21,15 +21,29 @@ class Discussions:
 
         except Exception as e:
             raise Exception(f"Error {e}")
+        
+    @classmethod
+    def delete_comments_for_discussion(self, uid):
+        try:
+            query = f"""select * from comentarios where id_debate = {uid};"""
+            result = connectToMySQL(db).query_db(query)
+            for comment in  result:
+                query = f"""delete from likes_usuarios where id_comentario = {comment["id_comentario"]}"""
+                connectToMySQL(db).query_db(query)
+            query = f"""delete from comentarios where id_debate = {uid};"""
+            connectToMySQL(db).query_db(query)
+
+        except Exception as e:
+            raise Exception(f"Error {e}")
     @classmethod
     def delete_discussion(self, uid):
         try:
-            query1 = f"""delete from comentarios where id_debate = {uid};"""
-            query2 = f"""delete from debates where id_debate = {uid};"""
-           
-            connectToMySQL(db).query_db(query1)
-            connectToMySQL(db).query_db(query2)
-            
+            query = f"""delete from likes_usuarios where id_debate = {uid};"""
+            connectToMySQL(db).query_db(query)
+            self.delete_comments_for_discussion(uid)
+            query = f"""delete from debates where id_debate = {uid}"""
+            connectToMySQL(db).query_db(query)
+        
         except Exception as e:
             raise Exception(f"Error {e}")
     
@@ -63,9 +77,10 @@ class Discussions:
               d.titulo AS titulo_debate,
               d.created_at AS fecha_creacion,
               d.updated_at AS fecha_actualizado,
+              d.me_gusta as me_gusta,
               CASE
                 WHEN c.id_comentario IS NULL THEN 'No hay ningún comentario'
-                ELSE CONCAT(u2.nombre, ' - ', c.id_usuario, ' - ', c.contenido, ' - ', c.id_comentario, ' - ', c.updated_at)
+                ELSE CONCAT(u2.nombre, ' - ', c.id_usuario, ' - ', c.contenido, ' - ', c.id_comentario, ' - ', c.updated_at, ' - ', c.me_gusta)
               END AS comentarios
             FROM usuarios u
             JOIN debates d ON u.id = d.id_usuario
@@ -75,7 +90,6 @@ class Discussions:
             LIMIT 100
             """
             result = connectToMySQL(db).query_db(query)
-            
             return result
         
         except Exception as e:
@@ -131,17 +145,19 @@ class Discussions:
                         'titulo_debate': item['titulo_debate'],
                         'fecha_creacion': item['fecha_creacion'],
                         'fecha_actualizado': item['fecha_actualizado'],
+                        'me_gusta': item["me_gusta"],
                         'comentarios': []
                     }
                     debate_actual = item['id_debate']
                 if item['comentarios'] != 'No hay ningún comentario':
                     comentario_parts = item['comentarios'].split(' - ')
-                    nombre_usuario, id_usuario, contenido, id_comentario,  = comentario_parts[0], comentario_parts[1].split()[0], comentario_parts[2], comentario_parts[3]
+                    nombre_usuario, id_usuario, contenido, id_comentario, me_gusta = comentario_parts[0], comentario_parts[1].split()[0], comentario_parts[2], comentario_parts[3],comentario_parts[-1]
                     comentario = {
                         'nombre_usuario': nombre_usuario,
                         'id_usuario': int(id_usuario),
                         'contenido': contenido,
-                        'id_comentario': int(id_comentario)
+                        'id_comentario': int(id_comentario),
+                        'me_gusta': int(me_gusta)                
                     }
                     debate['comentarios'].append(comentario)
             else:
