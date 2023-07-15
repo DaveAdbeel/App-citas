@@ -86,7 +86,7 @@ endblock title %}
    <div class="mx-auto px-4 py-2  max-h-full max-w-3xl flex flex-col gap-2 bg-none">
    <form action='/add_discussion' method="POST">   
          <div class="flex items-center gap-4">
-        <input type="text" id="title_discussion" class="block w-full p-4  text-sm text-gray-900  rounded-lg bg-gray-50 focus:outline-none  focus:border-gray-400 border-gray-200 border-2 shadow-lg" placeholder="Pregunta lo que sea." required name="title_discussion" pattern="[a-zA-Z 0-9 ¿-+¡!?]{5,100}" title="La pregunta debe tener como minimo 5 letras y maximo 100.">
+        <input type="text" id="title_discussion" class="block w-full p-4  text-sm text-gray-900  rounded-lg bg-gray-50 focus:outline-none  focus:border-gray-400 border-gray-200 border-2 shadow-lg" placeholder="Pregunta lo que sea." required name="title_discussion"  title="La pregunta debe tener como minimo 5 letras y maximo 100." pattern="^[a-zA-Z0-9?¿!¡¿\s]{5,100}$">
         <button type="submit" class="text-white  bg-blue-700 hover:bg-blue-800 focus:outline-none font-medium rounded-full text-lg font-black shadow-lg w-10 h-10">+</button>
          </div>
    </form>  
