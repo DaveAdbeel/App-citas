@@ -59,6 +59,7 @@ class User:
 	        u.id, 
 	        u.nombre, 
 	        u.email, 
+            u.me_gusta,
             tipos_de_usuarios.nombre_tipo_usuario as tipo_usuario, 
             sexo_de_interes.nombre_sexo as sexo_interes,
             (select count(titulo) from debates where debates.id_usuario = u.id) as discusiones,
@@ -83,6 +84,7 @@ class User:
 	        u.id, 
 	        u.nombre, 
 	        u.email, 
+            u.me_gusta,
             tipos_de_usuarios.nombre_tipo_usuario as tipo_usuario, 
             sexo_de_interes.nombre_sexo as sexo_interes,
             (select count(titulo) from debates where debates.id_usuario = u.id) as discusiones,
@@ -118,4 +120,7 @@ class User:
             connectToMySQL(db).query_db(query)
         except Exception as e:
             raise Exception(f"Error: {e}")
+            
+            
+
             
