@@ -27,44 +27,59 @@
 
    </style>
    <div class="max-h-full sm:min-w-[40rem] overflow-y-auto container-chat px-4 py-4">
+
          {% for discussion in discussions %}
-         
-            <div class="flex justify-between gap-4 mb-4">
-               <h1><strong><a class="text-blue-500 underline text-lg" href="/account/{{discussion["id_usuario"]}}">{{discussion["nombre_usuario"]}}</a> dice:</strong> {{discussion["titulo_debate"]}}.<p class="text-xs font-semibold text-gray-700">{{discussion["fecha_creacion"]}} / Editado: {{discussion["fecha_actualizado"]}}</p></h1>
+            <div class="flex justify-between gap-4 mb-3 items-center">
+               <h1><strong><a class="text-blue-500 underline text-lg" href="/account/{{discussion["id_usuario"]}}">{{discussion["nombre_usuario"]}}</a> dice:</strong> {{discussion["titulo_debate"]}}.<p class="text-xs font-semibold text-gray-700">{{discussion["fecha_creacion"]}} / Editado: {{discussion["fecha_actualizado"]}} / {{discussion["me_gusta"]}} likes.</p></h1>
                
-            {% if discussion["id_usuario"] == user["id"]%}
-               <div>
-                  <button class="cursor-pointer font-black text-blue-600  outline-none border-none w-6 h-6"><a href="/edit_discussion/{{discussion['id_debate']}}"><img src="https://res.cloudinary.com/dm8e8z3bo/image/upload/f_auto,q_auto/v1688843350/app_citas/icons/edit.svg" alt="edit discussion img"></a></button>
+               
+               <div class="flex gap-2">
+                  {% if is_user_liked(user["id"],"discussion", discussion["id_debate"], None) == False %}
+                     <a class="hover: cursor-pointer" onclick="handleLikeClick(this)" data-user="{{discussion["id_usuario"]}}" data-type-button="like" data-table="debates" data-post-id="{{discussion['id_debate']}}"><img src="https://res.cloudinary.com/dm8e8z3bo/image/upload/f_auto,q_auto/v1689349996/app_citas/icons/like.svg" alt="like button"></a>
+                  {% else %}
+                  <a class="hover: cursor-pointer" onclick="handleLikeClick(this)" data-user="{{discussion["id_usuario"]}}" data-type-button="dislike" data-table="debates" data-post-id="{{discussion['id_debate']}}"><img src="https://res.cloudinary.com/dm8e8z3bo/image/upload/f_auto,q_auto/v1689349940/app_citas/icons/dislike.svg" alt="dislike button"></a>
+                  {% endif %}
+               
+                  {% if discussion["id_usuario"] == user["id"]%}
+                  <a class="w-6 h-6 cursor-pointer font-black text-blue-600 " href="/edit_discussion/{{discussion['id_debate']}}"><img src="https://res.cloudinary.com/dm8e8z3bo/image/upload/f_auto,q_auto/v1688843350/app_citas/icons/edit.svg" alt="edit discussion img"></a>
 
                   
-                  <button class="font-black text-red-600  outline-none border-none w-6 h-6"><a href="/delete_discussion/{{discussion['id_debate']}}"><img src="https://res.cloudinary.com/dm8e8z3bo/image/upload/f_auto,q_auto/v1688843271/app_citas/icons/delete.svg" alt="delete discussion img"></a></button>
+                  <a class="font-black text-red-600 w-6 h-6" href="/delete_discussion/{{discussion['id_debate']}}"><img src="https://res.cloudinary.com/dm8e8z3bo/image/upload/f_auto,q_auto/v1688843271/app_citas/icons/delete.svg" alt="delete discussion img"></a>
+                  {% endif %}
                </div>
-            {% endif %}
             </div>
 
             
-               {% for comment in discussion["comentarios"] %}
-                  <div class="flex flex-col ml-4  gap-4">
-                     <div class="flex justify-between">
-                     <h1 class="text-red-500"><strong><a class="underline" href="/account/{{comment["id_usuario"]}}">{{comment["nombre_usuario"]}}</a>: <p class="inline text-gray-800 font-medium	">{{comment["contenido"]}}</p></strong></h1>
+            <div class="flex flex-col ml-4 gap-3">
+                     {% for comment in discussion["comentarios"] %}
+                     <div class="flex justify-between gap-4">
+                     <h1 class="text-red-500"><strong><a class="underline" href="/account/{{comment["id_usuario"]}}">{{comment["nombre_usuario"]}}</a>: <p class="inline text-gray-800 font-medium	">{{comment["contenido"]}}</p></strong> / {{comment["me_gusta"]}} likes.</h1>
 
-                  {% if comment["id_usuario"] == user["id"]%}
-                     <div >
-                  <button class="cursor-pointer font-black text-blue-600  outline-none border-none w-6 h-6"><a href="/edit_comment/{{comment['id_comentario']}}"><img src="https://res.cloudinary.com/dm8e8z3bo/image/upload/f_auto,q_auto/v1688843350/app_citas/icons/edit.svg" alt="edit comment img"></a></button>
-                        
-                  
-                  <button class="font-black text-red-600  outline-none border-none w-6 h-6"><a href="/delete_comment/{{comment['id_comentario']}}"><img src="https://res.cloudinary.com/dm8e8z3bo/image/upload/f_auto,q_auto/v1688843271/app_citas/icons/delete.svg" alt="delete comment img"></a></button>
-               </div>
+                     <div class="flex gap-2">
+                        {% if is_user_liked(user["id"],"comment",None ,comment["id_comentario"]) == False %}
+                     <a class="hover: cursor-pointer" onclick="handleLikeClick(this)" data-user="{{comment["id_usuario"]}}" data-type-button="like" data-table="comentarios" data-post-id="{{comment['id_comentario']}}"><img src="https://res.cloudinary.com/dm8e8z3bo/image/upload/f_auto,q_auto/v1689349996/app_citas/icons/like.svg" alt="like button"></a>
+                  {% else %}
+                  <a class="hover: cursor-pointer" onclick="handleLikeClick(this)" data-user="{{comment["id_usuario"]}}" data-type-button="dislike" data-table="comentarios" data-post-id="{{comment['id_comentario']}}"><img src="https://res.cloudinary.com/dm8e8z3bo/image/upload/f_auto,q_auto/v1689349940/app_citas/icons/dislike.svg" alt="dislike button"></a>
                   {% endif %}
+
+                        
+                        {% if comment["id_usuario"] == user["id"]%}
+                        <button class="cursor-pointer font-black text-blue-600  outline-none border-none w-6 h-6"><a href="/edit_comment/{{comment['id_comentario']}}"><img src="https://res.cloudinary.com/dm8e8z3bo/image/upload/f_auto,q_auto/v1688843350/app_citas/icons/edit.svg" alt="edit comment img"></a></button>
+
+
+                        <button class="font-black text-red-600  outline-none border-none w-6 h-6"><a href="/delete_comment/{{comment['id_comentario']}}"><img src="https://res.cloudinary.com/dm8e8z3bo/image/upload/f_auto,q_auto/v1688843271/app_citas/icons/delete.svg" alt="delete comment img"></a></button>
+                        {% endif %}
+                     </div>
                   </div>
+                  {% endfor %}
+                  <form action="/add_comment/{{discussion["id_debate"]}}"  method="POST">
+                     <input name="comentario" focus type="text" placeholder="Deja tu comentario" class="mb-2 w-full outline-none  border-solid border-b-2  border-gray-300 focus:border-gray-400" pattern="^[a-zA-Z0-9?¿!¡¿\s]{4,50}$" title="Ingrese un minimo de 4 caracteres y un maximo de 50">
                   </div>
-               {% endfor %}
-               <form action="/add_comment/{{discussion["id_debate"]}}" class="ml-4" method="POST">
-               <input name="comentario" focus type="text" placeholder="Deja tu comentario" class="mb-2 w-full outline-none  border-solid border-b-2  border-gray-300 focus:border-gray-400">
-               
+                     
             </form>
          {% endfor %}
       
 </div>
 
+<script src="{{url_for("static", filename="js/handleLikes.js")}}"></script>
 {% endif %}
