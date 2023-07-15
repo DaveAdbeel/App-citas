@@ -14,6 +14,7 @@ from flask_bcrypt import Bcrypt, check_password_hash
 from models.comments import Comments
 from models.discussions import Discussions
 from models.interest_sex import Interest_Sex
+from models.like_users import Like_Users
 from models.user import User
 from models.user_type import User_Type
 
@@ -115,7 +116,7 @@ def home():
         discussions = Discussions.filter_discussions(Discussions.get_all_discussions())
         
         
-        return render_template("home.html", user=session["user"], discussions=discussions)
+        return render_template("home.html", user=session["user"], discussions=discussions, is_user_liked=Like_Users.is_user_liked)
     return redirect(url_for("startup_routes.index"))
 #user routes 
 @startup_routes.route("/my_profile", methods=["GET", "POST"])
@@ -146,6 +147,16 @@ def user_account(uid):
         return render_template("components/account_profile.html", user=user)
 
 #Discussions and comments routes
+@startup_routes.route("/like", methods=["POST"])
+def like():
+    if g.user:
+        if request.method == "POST":
+            data = request.get_json()
+            Like_Users.handleLike(data["opt"], data["user_id"], data["table"], data["post_id"], session["user"]["id"])
+            return {"status": 200}
+    
+    
+
 @startup_routes.route("/add_discussion", methods=["POST"])
 def add_discussion():
     if g.user:
