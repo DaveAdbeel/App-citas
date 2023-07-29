@@ -59,12 +59,6 @@ Make sure you have the following installed on your system:
    pip install -r requirements.txt
    ```
 
-## Configuration
-
-- Open the `.env` file and configure the environment variables according to your setup:
-
-   . `DATABASE_CONNECTION_URI`: The URI of your MySQL database. Example: `mysql://MYSQL_USER:MYSQL_PASSWORD@MYSQL_HOST/MYSQL_DATABASE`
-
 ## Database Setup
 
 1. Create a MySQL database for the project.
@@ -79,7 +73,7 @@ Make sure you have the following installed on your system:
 1. Start the Flask development server:
 
    ```shell
-   python3 index.py
+   python3 app.py
    ```
 
    The server should now be running at `http://localhost:5000`.
