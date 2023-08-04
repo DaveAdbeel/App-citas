@@ -1,7 +1,7 @@
 
 # Python Flask Contacts CRUD
 
-![image](https://github.com/DaveAdbeel/Python_Flask_Contacts_CRUD/assets/91069463/f6d0e01d-a13b-4b5f-9e9c-a40656200ed9)
+![image](https://repository-images.githubusercontent.com/651922840/de804023-b418-49ca-bfbc-1300c61abdc4)
 
 
 ## Prerequisites
@@ -14,14 +14,14 @@ Make sure you have the following installed on your system:
 
 1. Clone this repository to your local machine:
 
-   ```shell
-   git clone https://github.com/DaveAdbeel/Python_Flask_Contacts_CRUD.git
+   ```shellw
+   git clone https://github.com/DaveAdbeel/App-citas.git
    ```
 
-2. Change into the project directory:
+2. Change into the project directory
 
    ```shell
-   cd Python_Flask_Contacts_CRUD
+   cd App-citas
    ```
 
 3. Initialize the virtual enviroment and install the required dependencies:
@@ -61,7 +61,7 @@ Make sure you have the following installed on your system:
 
 ## Database Setup
 
-1. Create a MySQL database for the project.
+1. Create a MySQL database for the project with [this sql script](https://pastebin.com/2rhJ1jW5).
 
 2. Update the variables `MYSQL_USER, MYSQL_PASSWORD, MYSQL_HOST, MYSQL_DATABASE` in the `.env` file with your MySQL database connection details.
 
