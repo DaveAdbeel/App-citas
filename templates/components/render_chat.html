@@ -73,7 +73,7 @@
                   </div>
                   {% endfor %}
                   <form action="/add_comment/{{discussion["id_debate"]}}"  method="POST">
-                     <input name="comentario" focus type="text" placeholder="Deja tu comentario" class="mb-2 w-full outline-none  border-solid border-b-2  border-gray-300 focus:border-gray-400" pattern="^[a-zA-Z0-9?¿!¡¿\s]{4,50}$" title="Ingrese un minimo de 4 caracteres y un maximo de 50">
+                     <input name="comentario" focus type="text" placeholder="Deja tu comentario" class="mb-2 w-full outline-none  border-solid border-b-2  border-gray-300 focus:border-gray-400" pattern="^[a-zA-Z0-9?¿!¡¿,\s]{4,50}$" title="Ingrese un minimo de 4 caracteres y un maximo de 50">
                   </div>
                      
             </form>

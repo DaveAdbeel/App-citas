@@ -7,6 +7,7 @@ async function request(data) {
       body: JSON.stringify(data),
    });
 }
+
 async function requestHandler(opt, user_id, table, post_id) {
    await request({ opt, user_id, table, post_id })
       .then((res) => {
